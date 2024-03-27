@@ -1,0 +1,51 @@
+package com.dbserver.desafiovotacao.domain.service;
+
+import com.dbserver.desafiovotacao.domain.model.Pauta;
+import com.dbserver.desafiovotacao.domain.repository.PautaRepository;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayNameGeneration;
+import org.junit.jupiter.api.DisplayNameGenerator;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
+import org.mockito.BDDMockito;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.time.LocalDateTime;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+@ExtendWith(SpringExtension.class)
+@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
+class RegistroPautaServiceTest {
+
+    @Mock
+    private PautaRepository pautaRepositoryMock;
+
+    @InjectMocks
+    private RegistroPautaService registroPautaService;
+
+    @BeforeEach()
+    void setUp() {
+        BDDMockito.when(pautaRepositoryMock.save(ArgumentMatchers.any(Pauta.class)))
+                .thenReturn(criarPauta());
+    }
+
+    @Test
+    void Dado_uma_pauta_valida_Quando_criar_Entao_deve_retornar_uma_pauta_cadastrada() {
+        var pauta = registroPautaService.salvar(criarPauta());
+        Assertions.assertThat(pauta).isNotNull();
+    }
+
+    private Pauta criarPauta() {
+        return Pauta
+                .builder()
+                .nome("Campanha de marca")
+                .dataInicio(LocalDateTime.now())
+                .descricao("Reunião inicia às 17:00")
+                .build();
+    }
+}
