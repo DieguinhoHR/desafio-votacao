@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -23,5 +23,5 @@ public class Pauta {
 
     private String nome;
     private String descricao;
-    private OffsetDateTime dataInicio;
+    private LocalDateTime dataInicio;
 }
