@@ -26,6 +26,8 @@ public class Pauta {
     @NotBlank
     @Size(max = 150)
     private String nome;
-    private OffsetDateTime dataInicio;
     private String descricao;
+
+    @NotBlank
+    private OffsetDateTime dataInicio;
 }

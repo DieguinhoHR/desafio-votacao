@@ -1,5 +1,8 @@
-desafiovotacao-network:
-  driver: bridge
+version: "3.9"
+
+networks:
+  desafiovotacao-network:
+    driver: bridge
 
 services:
   desafiovotacao-mysql:
