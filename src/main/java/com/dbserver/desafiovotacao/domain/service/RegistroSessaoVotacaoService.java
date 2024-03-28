@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -22,19 +21,24 @@ public class RegistroSessaoVotacaoService {
     @Value("${tempo.sessao.votacao.em.segundos}")
     private Integer tempoSessaoPadrao;
 
-    private final RegistroPautaService registroPautaService;
+    private final PautaRepository pautaRepository;
     private final SessaoVotacaoRepository sessaoVotacaoRepository;
 
     @Transactional
-    public void iniciarSessaoVotacao(Long pautaId, LocalDateTime dataFimVotacao) {
-        var pauta = registroPautaService.buscarPorId(pautaId);
+    public SessaoVotacao iniciarSessaoVotacao(Long pautaId, LocalDateTime dataFimVotacao) {
+        var pauta = pautaRepository.findById(pautaId)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Pauta não encontrada"));
+
+        if (dataFimVotacao == null) {
+            throw new IllegalArgumentException("Valor inválido");
+        }
 
         var sessaoVotacaoEncontrada = sessaoVotacaoRepository.findByPauta(pauta);
 
         if (Objects.requireNonNull(sessaoVotacaoEncontrada).isPresent()){
             throw new SessaoJaCadastradaException("Sessão já cadastrada no sistema");
         }
-        sessaoVotacaoRepository.save(getSessaoVotacaoBuilder(pauta, dataFimVotacao));
+        return sessaoVotacaoRepository.save(getSessaoVotacaoBuilder(pauta, dataFimVotacao));
     }
 
     private SessaoVotacao getSessaoVotacaoBuilder(Pauta pauta, LocalDateTime dataFimVotacao) {

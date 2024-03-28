@@ -1,8 +1,6 @@
 package com.dbserver.desafiovotacao.api.controller;
 
-import com.dbserver.desafiovotacao.domain.model.SessaoVotacao;
 import com.dbserver.desafiovotacao.domain.service.RegistroSessaoVotacaoService;
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
