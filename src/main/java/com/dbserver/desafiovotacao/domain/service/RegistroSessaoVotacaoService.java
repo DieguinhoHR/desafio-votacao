@@ -1,13 +1,12 @@
 package com.dbserver.desafiovotacao.domain.service;
 
 import com.dbserver.desafiovotacao.domain.exception.EntidadeNaoEncontradaException;
-import com.dbserver.desafiovotacao.domain.exception.NegocioException;
+import com.dbserver.desafiovotacao.domain.exception.SessaoJaCadastradaException;
 import com.dbserver.desafiovotacao.domain.model.Pauta;
 import com.dbserver.desafiovotacao.domain.model.SessaoVotacao;
 import com.dbserver.desafiovotacao.domain.repository.PautaRepository;
 import com.dbserver.desafiovotacao.domain.repository.SessaoVotacaoRepository;
 import jakarta.transaction.Transactional;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -38,7 +37,7 @@ public class RegistroSessaoVotacaoService {
         var sessaoVotacaoEncontrada = sessaoVotacaoRepository.findByPauta(pauta);
 
         if (Objects.requireNonNull(sessaoVotacaoEncontrada).isPresent()){
-            throw new NegocioException("Sessão já existe");
+            throw new SessaoJaCadastradaException("Sessão já cadastrada no sistema");
         }
         sessaoVotacaoRepository.save(getSessaoVotacaoBuilder(pauta, dataFimVotacao));
     }

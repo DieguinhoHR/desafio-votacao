@@ -1,9 +1,11 @@
 package com.dbserver.desafiovotacao.api.exceptionhandler;
 
+import com.dbserver.desafiovotacao.domain.exception.EntidadeNaoEncontradaException;
+import com.dbserver.desafiovotacao.domain.exception.NegocioException;
+import com.dbserver.desafiovotacao.domain.exception.SessaoJaCadastradaException;
 import lombok.AllArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.*;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -38,5 +40,23 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         problemDetail.setProperty("fields", fields);
 
         return handleExceptionInternal(ex, problemDetail, headers, status, request);
+    }
+
+    @ExceptionHandler(EntidadeNaoEncontradaException.class)
+    public ProblemDetail handleEntidadeNaoEncontrada(NegocioException e) {
+        var problemDetail = ProblemDetail.forStatus(HttpStatus.NOT_FOUND);
+        problemDetail.setTitle(e.getMessage());
+        problemDetail.setType(URI.create("https://desafiovotacao.com/erros/nao-encontrado"));
+
+        return problemDetail;
+    }
+
+    @ExceptionHandler(SessaoJaCadastradaException.class)
+    public ProblemDetail handleSessaoJaCadastrada(NegocioException e) {
+        var problemDetail = ProblemDetail.forStatus(HttpStatus.CONFLICT);
+        problemDetail.setTitle(e.getMessage());
+        problemDetail.setType(URI.create("https://desafiovotacao.com/erros/sessao-ja-cadastrada"));
+
+        return problemDetail;
     }
 }

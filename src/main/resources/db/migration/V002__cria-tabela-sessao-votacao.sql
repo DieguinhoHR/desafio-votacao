@@ -1,4 +1,4 @@
-create table sessao_voto (
+create table sessao_votacao (
   id bigint not null auto_increment,
   pauta_id bigint not null,
   data_inicio datetime not null,
@@ -7,5 +7,5 @@ create table sessao_voto (
   primary key (id)
 );
 
-alter table sessao_voto add constraint fk_sessao_voto_pauta
+alter table sessao_votacao add constraint fk_sessao_votacao_pauta
 foreign key (pauta_id) references pauta (id);

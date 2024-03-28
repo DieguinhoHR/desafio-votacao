@@ -9,9 +9,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping("/pautas")
-@AllArgsConstructor
 public class PautaController {
 
     private final PautaAssembler pautaAssembler;

@@ -1,16 +1,15 @@
 package com.dbserver.desafiovotacao.domain.model;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 public class SessaoVotacao {
@@ -23,7 +22,6 @@ public class SessaoVotacao {
     private LocalDateTime dataFim;
 
     @OneToOne
-    @JoinColumn(name = "id_pauta")
+    @JoinColumn(name = "pauta_id")
     private Pauta pauta;
-
 }
