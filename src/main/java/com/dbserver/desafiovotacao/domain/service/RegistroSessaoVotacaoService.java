@@ -22,17 +22,12 @@ public class RegistroSessaoVotacaoService {
     @Value("${tempo.sessao.votacao.em.segundos}")
     private Integer tempoSessaoPadrao;
 
-    private final PautaRepository pautaRepository;
+    private final RegistroPautaService registroPautaService;
     private final SessaoVotacaoRepository sessaoVotacaoRepository;
-
-    public Optional<Pauta> getPauta(Long id) {
-        return pautaRepository.findById(id);
-    }
 
     @Transactional
     public void iniciarSessaoVotacao(Long pautaId, LocalDateTime dataFimVotacao) {
-        var pauta = pautaRepository.findById(pautaId)
-                .orElseThrow(() -> new EntidadeNaoEncontradaException("Pauta não encontrada"));
+        var pauta = registroPautaService.buscarPorId(pautaId);
 
         var sessaoVotacaoEncontrada = sessaoVotacaoRepository.findByPauta(pauta);
 

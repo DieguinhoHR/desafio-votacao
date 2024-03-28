@@ -15,8 +15,7 @@ import org.mockito.Mock;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDateTime;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import java.util.Optional;
 
 @ExtendWith(SpringExtension.class)
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
@@ -32,6 +31,9 @@ class RegistroPautaServiceTest {
     void setUp() {
         BDDMockito.when(pautaRepositoryMock.save(ArgumentMatchers.any(Pauta.class)))
                 .thenReturn(criarPauta());
+
+        BDDMockito.when(pautaRepositoryMock.findById(ArgumentMatchers.anyLong()))
+                .thenReturn(Optional.of(criarPauta()));
     }
 
     @Test
@@ -40,9 +42,22 @@ class RegistroPautaServiceTest {
         Assertions.assertThat(pauta).isNotNull();
     }
 
+    @Test
+    void Dado_uma_pauta_com_id_valido_Quando_buscar_registro_Entao_deve_retornar_uma_pauta_com_sucesso() {
+        Long pautaIdEsperado = criarPauta().getId();
+
+        var sessaoVotacao = registroPautaService.buscarPorId(1L);
+
+        Assertions.assertThat(sessaoVotacao).isNotNull();
+        Assertions.assertThat(sessaoVotacao.getId())
+                .isNotNull()
+                .isEqualTo(pautaIdEsperado);
+    }
+
     private Pauta criarPauta() {
         return Pauta
                 .builder()
+                .id(1L)
                 .nome("Campanha de marca")
                 .dataInicio(LocalDateTime.now())
                 .descricao("Reunião inicia às 17:00")
