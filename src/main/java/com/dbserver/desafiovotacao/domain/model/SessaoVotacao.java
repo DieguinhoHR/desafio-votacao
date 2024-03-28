@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Builder
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-public class SessaoVoto {
+public class SessaoVotacao {
 
     @EqualsAndHashCode.Include
     @Id
