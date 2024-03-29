@@ -25,4 +25,9 @@ public class PautaController {
 
         return pautaAssembler.toModel(pautaCadastrada);
     }
+
+    @GetMapping
+    public void contabilizarVotos() {
+
+    }
 }

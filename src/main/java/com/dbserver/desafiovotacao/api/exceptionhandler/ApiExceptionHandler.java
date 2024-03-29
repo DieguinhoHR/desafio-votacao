@@ -2,6 +2,7 @@ package com.dbserver.desafiovotacao.api.exceptionhandler;
 
 import com.dbserver.desafiovotacao.domain.exception.EntidadeNaoEncontradaException;
 import com.dbserver.desafiovotacao.domain.exception.NegocioException;
+import com.dbserver.desafiovotacao.domain.exception.SessaoFechadaException;
 import com.dbserver.desafiovotacao.domain.exception.SessaoJaCadastradaException;
 import lombok.AllArgsConstructor;
 import org.springframework.context.MessageSource;
@@ -56,6 +57,15 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         var problemDetail = ProblemDetail.forStatus(HttpStatus.CONFLICT);
         problemDetail.setTitle(e.getMessage());
         problemDetail.setType(URI.create("https://desafiovotacao.com/erros/sessao-ja-cadastrada"));
+
+        return problemDetail;
+    }
+
+    @ExceptionHandler(SessaoFechadaException.class)
+    public ProblemDetail handleSessaoFechada(NegocioException e) {
+        var problemDetail = ProblemDetail.forStatus(HttpStatus.CONFLICT);
+        problemDetail.setTitle(e.getMessage());
+        problemDetail.setType(URI.create("https://desafiovotacao.com/erros/sessao-fechada"));
 
         return problemDetail;
     }

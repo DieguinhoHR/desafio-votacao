@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.LinkedHashSet;
 
 @Getter
 @Setter
@@ -24,4 +26,7 @@ public class SessaoVotacao {
     @OneToOne
     @JoinColumn(name = "pauta_id")
     private Pauta pauta;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "sessaoVotacao", cascade = CascadeType.ALL)
+    private Collection<Voto> votos = new LinkedHashSet<>();
 }
