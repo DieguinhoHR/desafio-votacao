@@ -3,7 +3,7 @@ package com.dbserver.desafiovotacao.api.controller.v1;
 import com.dbserver.desafiovotacao.api.assembler.VotoAssembler;
 import com.dbserver.desafiovotacao.api.model.VotoModel;
 import com.dbserver.desafiovotacao.api.model.input.VotoInput;
-import com.dbserver.desafiovotacao.domain.service.VotoService;
+import com.dbserver.desafiovotacao.domain.service.RegistroVotoService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -19,7 +19,7 @@ public class VotoController {
     private static final Logger logger = LoggerFactory.getLogger(VotoController.class);
 
     private final VotoAssembler votoAssembler;
-    private final VotoService votoService;
+    private final RegistroVotoService votoService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)

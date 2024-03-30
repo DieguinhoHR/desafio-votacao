@@ -6,6 +6,8 @@ import com.dbserver.desafiovotacao.domain.repository.PautaRepository;
 import com.dbserver.desafiovotacao.domain.repository.SessaoVotacaoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,14 +18,13 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 @Service
+@Cacheable(value = "pautas", key = "#pauta.id")
 public class RegistroPautaService {
-
-    @Value("${tempo.sessao.votacao.em.segundos}")
-    private Integer tempoSessaoVotacaoSegundos;
 
     private final PautaRepository pautaRepository;
     private final SessaoVotacaoRepository sessaoVotacaoRepository;
 
+    @CacheEvict(value = "pautas", allEntries = true)
     @Transactional
     public Pauta salvar(Pauta pauta) {
        return pautaRepository.save(pauta);
@@ -50,9 +51,4 @@ public class RegistroPautaService {
 
         return resultado;
     }
-
-    public Integer getTempoSessaoVotacaoSegundos() {
-        return tempoSessaoVotacaoSegundos;
-    }
-
 }

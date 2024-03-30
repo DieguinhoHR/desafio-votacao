@@ -18,7 +18,7 @@ import java.util.Optional;
 
 @AllArgsConstructor
 @Service
-public class VotoService {
+public class RegistroVotoService {
 
     private final PautaRepository pautaRepository;
     private final VotoRepository votoRepository;
