@@ -1,9 +1,8 @@
 package com.dbserver.desafiovotacao.domain.service;
 
-import com.dbserver.desafiovotacao.api.model.input.VotoInput;
 import com.dbserver.desafiovotacao.domain.exception.EntidadeNaoEncontradaException;
-import com.dbserver.desafiovotacao.domain.exception.NegocioException;
 import com.dbserver.desafiovotacao.domain.exception.SessaoFechadaException;
+import com.dbserver.desafiovotacao.domain.exception.VotoJaCadastradoException;
 import com.dbserver.desafiovotacao.domain.model.Pauta;
 import com.dbserver.desafiovotacao.domain.model.SessaoVotacao;
 import com.dbserver.desafiovotacao.domain.model.Voto;
@@ -43,10 +42,11 @@ public class VotoService {
             throw new SessaoFechadaException("Sessão fechada");
         }
 
+        voto.setDataHora(LocalDateTime.now());
         voto.setSessaoVotacao(sessaoVotacao);
 
         if (votoRepository.existsBySessaoVotacaoAndCpfEleitor(sessaoVotacao, voto.getCpfEleitor())) {
-            throw new NegocioException("Voto já registrado");
+            throw new VotoJaCadastradoException("Voto já registrado");
         }
         return votoRepository.save(voto);
     }

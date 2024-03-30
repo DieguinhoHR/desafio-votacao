@@ -7,9 +7,8 @@ import java.util.Map;
 
 @Setter
 @Getter
-public class PautaModel {
+public class PautaModelSemResultado {
 
     private String id;
     private String nome;
-    private Map<String, Long> resultado;
 }

@@ -1,9 +1,6 @@
 package com.dbserver.desafiovotacao.api.exceptionhandler;
 
-import com.dbserver.desafiovotacao.domain.exception.EntidadeNaoEncontradaException;
-import com.dbserver.desafiovotacao.domain.exception.NegocioException;
-import com.dbserver.desafiovotacao.domain.exception.SessaoFechadaException;
-import com.dbserver.desafiovotacao.domain.exception.SessaoJaCadastradaException;
+import com.dbserver.desafiovotacao.domain.exception.*;
 import lombok.AllArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -57,6 +54,15 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         var problemDetail = ProblemDetail.forStatus(HttpStatus.CONFLICT);
         problemDetail.setTitle(e.getMessage());
         problemDetail.setType(URI.create("https://desafiovotacao.com/erros/sessao-ja-cadastrada"));
+
+        return problemDetail;
+    }
+
+    @ExceptionHandler(VotoJaCadastradoException.class)
+    public ProblemDetail handleVotoJaCadastrado(NegocioException e) {
+        var problemDetail = ProblemDetail.forStatus(HttpStatus.CONFLICT);
+        problemDetail.setTitle(e.getMessage());
+        problemDetail.setType(URI.create("https://desafiovotacao.com/erros/voto-ja-cadastrado"));
 
         return problemDetail;
     }

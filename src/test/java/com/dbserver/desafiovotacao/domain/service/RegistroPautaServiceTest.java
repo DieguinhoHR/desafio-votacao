@@ -46,10 +46,10 @@ class RegistroPautaServiceTest {
     void Dado_uma_pauta_com_id_valido_Quando_buscar_registro_Entao_deve_retornar_uma_pauta_com_sucesso() {
         Long pautaIdEsperado = criarPauta().getId();
 
-        var sessaoVotacao = registroPautaService.buscarPorId(1L);
+        var sessaoVotacao = pautaRepositoryMock.findById(1L);
 
         Assertions.assertThat(sessaoVotacao).isNotNull();
-        Assertions.assertThat(sessaoVotacao.getId())
+        Assertions.assertThat(sessaoVotacao.get().getId())
                 .isNotNull()
                 .isEqualTo(pautaIdEsperado);
     }

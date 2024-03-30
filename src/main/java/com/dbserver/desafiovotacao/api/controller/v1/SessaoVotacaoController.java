@@ -1,4 +1,4 @@
-package com.dbserver.desafiovotacao.api.controller;
+package com.dbserver.desafiovotacao.api.controller.v1;
 
 import com.dbserver.desafiovotacao.domain.service.RegistroSessaoVotacaoService;
 import lombok.AllArgsConstructor;
@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/sessoes/{pautaId}/sessoes-votacoes")
+@RequestMapping("/v1/sessoes/{pautaId}/sessoes-votacoes")
 public class SessaoVotacaoController {
 
     private final RegistroSessaoVotacaoService sessaoVotacaoService;

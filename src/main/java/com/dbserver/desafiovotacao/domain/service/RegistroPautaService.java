@@ -4,7 +4,8 @@ import com.dbserver.desafiovotacao.domain.model.Pauta;
 import com.dbserver.desafiovotacao.domain.model.Voto;
 import com.dbserver.desafiovotacao.domain.repository.PautaRepository;
 import com.dbserver.desafiovotacao.domain.repository.SessaoVotacaoRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,14 +13,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import org.springframework.beans.factory.annotation.Value;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Service
 public class RegistroPautaService {
 
-    @Value("${tempo.sessao.votacao.segundos}")
-    private Integer tempoSessaoPadrao;
+    @Value("${tempo.sessao.votacao.em.segundos}")
+    private Integer tempoSessaoVotacaoSegundos;
 
     private final PautaRepository pautaRepository;
     private final SessaoVotacaoRepository sessaoVotacaoRepository;
@@ -36,16 +36,23 @@ public class RegistroPautaService {
                 ? buscarPauta.get().getVotos()
                 : new ArrayList<>();
 
-        Map<String, Long> result = new HashMap<>();
-        result.put("SIM", votos.stream().filter(voto -> voto.getStatusVoto()
+        Map<String, Long> resultado = new HashMap<>();
+
+        resultado.put("SIM", votos.stream().filter(voto -> voto.getStatusVoto()
                 .toString()
                 .equalsIgnoreCase("SIM"))
                 .count());
-        result.put("NAO", votos.stream().filter(voto -> voto.getStatusVoto()
+
+        resultado.put("NAO", votos.stream().filter(voto -> voto.getStatusVoto()
                 .toString()
                 .equalsIgnoreCase("NAO"))
                 .count());
 
-        return result;
+        return resultado;
     }
+
+    public Integer getTempoSessaoVotacaoSegundos() {
+        return tempoSessaoVotacaoSegundos;
+    }
+
 }

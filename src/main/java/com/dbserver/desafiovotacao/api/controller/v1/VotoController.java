@@ -1,4 +1,4 @@
-package com.dbserver.desafiovotacao.api.controller;
+package com.dbserver.desafiovotacao.api.controller.v1;
 
 import com.dbserver.desafiovotacao.api.assembler.VotoAssembler;
 import com.dbserver.desafiovotacao.api.model.VotoModel;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/pautas/{pautaId}/votos")
+@RequestMapping("/v1/pautas/{pautaId}/votos")
 public class VotoController {
 
     private final VotoAssembler votoAssembler;

@@ -2,9 +2,8 @@ package com.dbserver.desafiovotacao.domain.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -20,9 +19,7 @@ public class Voto {
 
     @Enumerated(EnumType.STRING)
     private StatusVoto statusVoto;
-
-    @CreationTimestamp
-    private OffsetDateTime dataHora;
+    private LocalDateTime dataHora;
 
     @ManyToOne
     @JoinColumn(name = "sessao_votacao_id")
