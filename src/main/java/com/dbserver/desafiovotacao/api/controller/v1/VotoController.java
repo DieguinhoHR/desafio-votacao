@@ -6,6 +6,8 @@ import com.dbserver.desafiovotacao.api.model.input.VotoInput;
 import com.dbserver.desafiovotacao.domain.service.VotoService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/v1/pautas/{pautaId}/votos")
 public class VotoController {
+
+    private static final Logger logger = LoggerFactory.getLogger(VotoController.class);
 
     private final VotoAssembler votoAssembler;
     private final VotoService votoService;
@@ -23,6 +27,8 @@ public class VotoController {
                            @Valid @RequestBody VotoInput votarInput) {
         var novoVoto = votoAssembler.toEntity(votarInput);
         var votoCadastrado = votoService.votar(pautaId, novoVoto);
+
+        logger.info("Voto realizado com sucesso!");
 
         return votoAssembler.toModel(votoCadastrado);
     }

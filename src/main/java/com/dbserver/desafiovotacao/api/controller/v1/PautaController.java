@@ -9,6 +9,8 @@ import com.dbserver.desafiovotacao.domain.repository.PautaRepository;
 import com.dbserver.desafiovotacao.domain.service.RegistroPautaService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +20,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/v1/pautas")
 public class PautaController {
+
+    private static final Logger logger = LoggerFactory.getLogger(PautaController.class);
 
     private final PautaAssembler pautaAssembler;
     private final PautaRepository pautaRepository;
@@ -29,11 +33,14 @@ public class PautaController {
         var novaPauta = pautaAssembler.toEntity(pautaInput);
         var pautaCadastrada = registroPautaService.salvar(novaPauta);
 
+        logger.info("Pauta cadastrada com sucesso!");
+
         return pautaAssembler.toModelSemResultado(pautaCadastrada);
     }
 
     @GetMapping
     public List<PautaModel> contabilizarVotos() {
+        logger.info("Contabilizando pautas");
         List<Pauta> pautas = pautaRepository.findAll();
 
         return pautaAssembler.toCollectionModel(pautas, registroPautaService);
