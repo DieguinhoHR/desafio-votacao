@@ -1,14 +1,19 @@
 import logoImg from '../../assets/voto.svg';
 import { Container, Content } from "./styles";
 
-export function Header() {
+interface HeaderProps {
+  onAbrirNovaPautaModal: () => void;
+}
+
+export function Header({ onAbrirNovaPautaModal }: HeaderProps) {
+    
     return (
       <Container>
         <Content>
             <img src={logoImg} alt="Sistema de votos" />
-            <button type="button">
-                Novo voto
-            </button>
+            <button type="button" onClick={onAbrirNovaPautaModal}>
+                Nova pauta
+            </button>            
         </Content>
       </Container>
     )

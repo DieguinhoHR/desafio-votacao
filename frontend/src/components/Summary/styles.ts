@@ -26,7 +26,7 @@ export const Container = styled.div`
       font-weight: 500;
     }
 
-    &.total {
+    &.total-votos {
       color: #FFFFFF;
       background: var(--green);
     }
