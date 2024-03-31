@@ -29,8 +29,7 @@ export function NovaPautaModal({ isOpen, onRequestClose }: NovaPautaModalProps) 
         if (obj) {
             alert('Registro cadstrado com sucesso')
         }
-        onRequestClose();
-      
+        onRequestClose();      
     }     
 
     return (

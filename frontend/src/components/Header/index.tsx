@@ -11,9 +11,11 @@ export function Header({ onAbrirNovaPautaModal }: HeaderProps) {
       <Container>
         <Content>
             <img src={logoImg} alt="Sistema de votos" />
-            <button type="button" onClick={onAbrirNovaPautaModal}>
-                Nova pauta
-            </button>            
+            <div>
+              <button type="button" onClick={onAbrirNovaPautaModal}>
+                  Nova pauta
+              </button>
+            </div>
         </Content>
       </Container>
     )

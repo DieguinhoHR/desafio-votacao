@@ -3,6 +3,23 @@ import styled from "styled-components";
 export const Container = styled.div`
   margin-top: 4rem;
 
+  button {
+        font-size: 1rem;
+        color: #FFFFFF;
+        background: var(--blue-light);
+        border: 0;
+        padding: 0 2rem;
+        border-radius: 0.25rem;
+        height: 2rem;
+        margin: 1px;
+
+        transition: filter 0.2s ease;
+
+    &:hover{
+      filter: brightness(0.9);
+    }
+  }
+
   table {
     width: 100%;
     border-spacing: 0 0.5rem;

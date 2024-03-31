@@ -1,12 +1,12 @@
-import { Summary } from "../Summary";
-import { TransactionTable } from "../TransactionsTable";
+import { ResumoVotos } from "../ResumoVotos";
+import { TabelaPautas } from "../TabelaPautas";
 import { Container } from "./styles";
 
 export function Dashboard() {
   return (
     <Container>
-      <Summary />
-      <TransactionTable />
+      <ResumoVotos />
+      <TabelaPautas />
     </Container>
   )
 }

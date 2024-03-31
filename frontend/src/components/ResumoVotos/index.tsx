@@ -13,7 +13,7 @@ interface Pauta {
     }
 }
 
-export function Summary() {
+export function ResumoVotos() {
     const [pautas, setPautas] = useState<Pauta[]>([]); 
     const [votoTotalSim, setVotoTotalSim] = useState(0);
     const [votoTotalNao, setVotoTotalNao] = useState(0);
