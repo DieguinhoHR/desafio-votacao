@@ -1,10 +1,8 @@
 import Modal from 'react-modal';
 import { FormEvent, useState } from 'react';
 import closeImg from '../../assets/close.svg';
-import incomeImg from '../../assets/income.svg';
-import outcomeImg from '../../assets/outcome.svg';
 import { Container } from './styles';
-
+import { api } from "../../services/api";
 
 interface NovaPautaModalProps {
     isOpen: boolean; 
@@ -12,7 +10,30 @@ interface NovaPautaModalProps {
 }
 
 export function NovaPautaModal({ isOpen, onRequestClose }: NovaPautaModalProps) {
-     return (
+    const [nome, setNome] = useState('');
+    const [descricao, setDescricao] = useState('');
+    const [dataInicio, setDataInicio] = useState('');
+    
+    async function handleCreateNovaPauta(event: FormEvent) {
+        event.preventDefault();
+
+        const hoje = new Date();
+        console.log(hoje.getSeconds())
+  
+        const obj = await api.post('pautas', {
+            'dataInicio': `${dataInicio} ${hoje.getHours()}:${hoje.getMinutes()}:${hoje.getSeconds()}`,
+            'nome': nome,
+            'descricao': descricao             
+        });
+
+        if (obj) {
+            alert('Registro cadstrado com sucesso')
+        }
+        onRequestClose();
+      
+    }     
+
+    return (
         <Modal isOpen={isOpen} 
             onRequestClose={onRequestClose}
             overlayClassName="react-modal-overlay"
@@ -25,19 +46,25 @@ export function NovaPautaModal({ isOpen, onRequestClose }: NovaPautaModalProps) 
                 <img src={closeImg} alt="Fechar mdoal" />
             </button>   
                  
-            <Container>
+            <Container onSubmit={handleCreateNovaPauta}>
                 <h2>Cadastrar pauta</h2>
                 <input 
-                    type="text" 
+                    type="text"
+                    value={nome}
+                    onChange={event => setNome(event.target.value) }
                     placeholder="Nome" 
                 />
                 <input 
-                    type="textarea" 
+                    type="text"
+                    value={descricao}
+                    onChange={event => setDescricao(event.target.value) }
                     placeholder="Descrição"
                 />
                 <input 
-                    type="date" 
-                    placeholder="Data inicio"
+                    type="date"
+                    value={dataInicio}
+                    onChange={event => setDataInicio(event.target.value) }
+                    placeholder="Data Inicio"
                 />
                 <button type="submit">Cadastrar</button>
             </Container>
