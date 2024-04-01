@@ -42,4 +42,10 @@ public class PautaAssembler {
                 .map(pauta -> toModelResultadoVotos(pauta, registroPautaService.exibirResultadoVotacao(pauta)))
                 .toList();
     }
+
+    public List<PautaModelSemResultado> toCollectionModel(List<Pauta> pautas) {
+        return pautas.stream()
+                .map(this::toModelSemResultado)
+                .toList();
+    }
 }

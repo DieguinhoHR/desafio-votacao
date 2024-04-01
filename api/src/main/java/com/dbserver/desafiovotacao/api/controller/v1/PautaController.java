@@ -39,6 +39,14 @@ public class PautaController {
     }
 
     @GetMapping
+    public List<PautaModelSemResultado> listarPautas() {
+        logger.info("Listando pautas");
+        List<Pauta> pautas = pautaRepository.findAll();
+
+        return pautaAssembler.toCollectionModel(pautas);
+    }
+
+    @GetMapping("/contabiliza-votos")
     public List<PautaModel> contabilizarVotos() {
         logger.info("Contabilizando pautas");
         List<Pauta> pautas = pautaRepository.findAll();
