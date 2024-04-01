@@ -3,6 +3,7 @@ import { FormEvent, useState } from 'react';
 import closeImg from '../../assets/close.svg';
 import { Container } from './styles';
 import { api } from "../../services/api";
+import moment from 'moment';
 
 interface NovaPautaModalProps {
     isOpen: boolean; 
@@ -17,11 +18,10 @@ export function NovaPautaModal({ isOpen, onRequestClose }: NovaPautaModalProps) 
     async function handleCreateNovaPauta(event: FormEvent) {
         event.preventDefault();
 
-        const hoje = new Date();
-        console.log(hoje.getSeconds())
-  
+        const dataInicioFormatada = moment(dataInicio).format("yyyy-MM-DD HH:mm:ss")
+
         const obj = await api.post('pautas', {
-            'dataInicio': `${dataInicio} ${hoje.getHours()}:${hoje.getMinutes()}:${hoje.getSeconds()}`,
+            'dataInicio': dataInicioFormatada,
             'nome': nome,
             'descricao': descricao             
         });
@@ -60,7 +60,7 @@ export function NovaPautaModal({ isOpen, onRequestClose }: NovaPautaModalProps) 
                     placeholder="Descrição"
                 />
                 <input 
-                    type="date"
+                    type="datetime-local"
                     value={dataInicio}
                     onChange={event => setDataInicio(event.target.value) }
                     placeholder="Data Inicio"

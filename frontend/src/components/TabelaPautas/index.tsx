@@ -19,7 +19,7 @@ export function TabelaPautas() {
     if (obj) {
         alert('Sessão iniciada com sucesso')
     }
-}     
+  }
 
   useEffect(() => {
     api.get('pautas')
