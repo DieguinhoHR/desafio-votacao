@@ -7,6 +7,16 @@ O sistema criada para cadastrar uma nova pauta, iniciar uma nova sessão, votar 
 Link abaixo para documentação da api no Swagger (Open api)
 [http://localhost:8080/swagger-ui/index.html] 
 
+Scripts disponiveis
+Dentro da pasta frontend, você pode rodar:
+
+yarn start
+Executa o aplicativo no modo desenvolvimento.
+Abra http://localhost:3000 para visualizar no browser.
+
+A página será recarregada se você fizer edições.
+Você também irá se deparar com qualquer erro de lint no console.
+
 ## Backend
 
 - Deve subir o docker para rodar o mysql
