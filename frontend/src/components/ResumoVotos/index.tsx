@@ -1,40 +1,26 @@
 import { Container } from "./styles";
 import incomeImg from '../../assets/income.svg';
 import outcomeImg from '../../assets/outcome.svg';
-import { useState, useEffect } from "react";
-import { api } from "../../services/api";
-
-interface Pauta {
-    id: number;
-    nome: string;
-    resultado: {
-        SIM: number,
-        NAO: number
-    }
-}
+import { useVotos } from "../../hooks/useVotos";
 
 export function ResumoVotos() {
-    const [pautas, setPautas] = useState<Pauta[]>([]); 
-    const [votoTotalSim, setVotoTotalSim] = useState(0);
-    const [votoTotalNao, setVotoTotalNao] = useState(0);
+    const { votos } = useVotos();
 
-    useEffect(() => {
-        (async () => {
-            const { data } = await api.get('pautas');
-            setPautas(data)
-  
-            let somaVotosSim = 0;
+    const resumo = votos.reduce((acumulador, voto) => {
+        if (voto.resultado.SIM) {
+            acumulador.SIM += voto.resultado.SIM;
+            acumulador.total += voto.resultado.SIM;
+        } 
+        acumulador.NAO += voto.resultado.NAO;
+        acumulador.total += voto.resultado.NAO;
+        
+        return acumulador;
+    }, {
+        SIM: 0,
+        NAO: 0,
+        total: 0
+    })
 
-            pautas.forEach(pauta => somaVotosSim += pauta.resultado.SIM);
-            setVotoTotalSim(somaVotosSim);
-
-            let somaVotosNao = 0;
-
-            pautas.forEach(pauta => somaVotosNao += pauta.resultado.NAO);
-            setVotoTotalNao(somaVotosNao);
-          })();
-    }, []);
-    
     return (
         <Container>
             <div>
@@ -42,20 +28,20 @@ export function ResumoVotos() {
                     <p>Votos (Sim)</p>
                     <img src={incomeImg} alt="Entradas" />
                 </header>
-                <strong>{votoTotalSim}</strong>
+                <strong>{resumo.SIM}</strong>
             </div>
             <div>
                 <header>
                     <p>Votos (Não)</p>
                     <img src={outcomeImg} alt="Entradas" />
                 </header>
-                <strong>{votoTotalNao}</strong>
+                <strong>{resumo.NAO}</strong>
             </div>
             <div className="total-votos">
                 <header>
                     <p>Total de votos</p>
                 </header>
-                <strong>{votoTotalSim + votoTotalNao}</strong>
+                <strong>{resumo.total}</strong>
             </div>
         </Container>    
     );

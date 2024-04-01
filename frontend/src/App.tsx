@@ -1,3 +1,4 @@
+import { PautasProvider } from './hooks/usePautas';
 import { Dashboard } from './components/Dashboard';
 import { Header } from './components/Header';
 import { NovaPautaModal } from './components/NovaPautaModal';
@@ -5,6 +6,7 @@ import { NovoVotoModal } from './components/NovoVotoModal';
 import { GlobalStyle } from './styles/global';
 import { useState } from 'react';
 import Modal from 'react-modal';
+import { VotosProvider } from './hooks/useVotos';
 
 Modal.setAppElement('#root')
 
@@ -29,24 +31,26 @@ export function App() {
   }
 
   return (
-    <>
-      <Header 
-        onAbrirNovaPautaModal={handleAbreNovaPautaModal}
-        onAbrirNovoVotoModal={handleAbreNovoVotoModal}
-      />
-      <Dashboard />
+    <PautasProvider>
+      <VotosProvider>
+        <Header 
+          onAbrirNovaPautaModal={handleAbreNovaPautaModal}
+          onAbrirNovoVotoModal={handleAbreNovoVotoModal}
+        />
+        <Dashboard />
 
-      <NovaPautaModal 
-        isOpen={isNovaPautaModalOpen}
-        onRequestClose={handleFechaPautaModal}
-      />
+        <NovaPautaModal 
+          isOpen={isNovaPautaModalOpen}
+          onRequestClose={handleFechaPautaModal}
+        />
 
-     <NovoVotoModal 
-        isOpen={isNovoVotoModalOpen}
-        onRequestClose={handleFechaVotoModal}
-      />
+        <NovoVotoModal 
+          isOpen={isNovoVotoModalOpen}
+          onRequestClose={handleFechaVotoModal}
+        />
 
-      <GlobalStyle /> 
-    </>
+        <GlobalStyle /> 
+      </VotosProvider>
+    </PautasProvider>
   );
 }

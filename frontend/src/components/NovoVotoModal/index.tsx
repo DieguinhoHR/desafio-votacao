@@ -1,8 +1,9 @@
 import Modal from 'react-modal';
-import { FormEvent, SetStateAction, useEffect, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import closeImg from '../../assets/close.svg';
 import { Container } from './styles';
 import { api } from "../../services/api";
+import { useVotos } from '../../hooks/useVotos';
 
 interface NovoVotoModalProps {
     isOpen: boolean; 
@@ -11,9 +12,11 @@ interface NovoVotoModalProps {
 
 export function NovoVotoModal({ isOpen, onRequestClose }: NovoVotoModalProps) {
     const [cpfEleitor, setCpfEleitor] = useState('');
-    const [statusVoto, setStatusVoto] = useState('SIM');
+    const [statusVoto, setStatusVoto] = useState('');
     const [sessaoVotacao, setSessaoVotacao] = useState('');
     const [sessoes, setSessoes] = useState<any[]>([]);
+
+    const { criarVoto } = useVotos();
 
     useEffect(() => {
         getSessoes()
@@ -33,17 +36,15 @@ export function NovoVotoModal({ isOpen, onRequestClose }: NovoVotoModalProps) {
             cpfEleitor,
             statusVoto,
             sessaoVotacao
-        }
+        };
 
-        const obj = await api.post('pautas/1/votos', data)
-                            .catch(function (error) {
-                                alert(error.response.data.title);
-                            });
+        criarVoto(data, sessaoVotacao);
+    
+        setCpfEleitor('');
+        setStatusVoto('');
+        setSessaoVotacao('');
 
-        if (obj) {
-            alert('Registro cadstrado com sucesso')
-            onRequestClose();  
-        }           
+        onRequestClose();  
     }     
 
     return (
@@ -65,13 +66,16 @@ export function NovoVotoModal({ isOpen, onRequestClose }: NovoVotoModalProps) {
                     type="text"
                     value={cpfEleitor}
                     onChange={event => setCpfEleitor(event.target.value) }
-                    placeholder="Digite seu CPF"  
+                    placeholder="Digite seu CPF"
+                    required
                 />               
                 <label htmlFor="voto"> Selecione seu voto</label>
                 <select name="voto" 
-                        value={statusVoto || 'SIM'}
+                        value={statusVoto}
                         onChange={event => setStatusVoto(event.target.value)}
+                        required
                 >
+                    <option value="">Selecione</option>
                     <option value="SIM">SIM</option>
                     <option value="NAO">NÃO</option>
                 </select>
@@ -80,7 +84,9 @@ export function NovoVotoModal({ isOpen, onRequestClose }: NovoVotoModalProps) {
                 <select name="sessaoVotacao" 
                         value={sessaoVotacao}
                         onChange={event => setSessaoVotacao(event.target.value)}
+                        required              
                 >
+                    <option value="">Selecione</option>
                     {sessoes.map(sessao => (
                         <option value={sessao.id} 
                                 key={sessao.id}>

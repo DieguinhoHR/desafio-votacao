@@ -1,16 +1,11 @@
-import { useEffect, useState } from "react";
 import { Container } from "./styles";
 import { api } from "../../services/api";
-
-interface Pauta {
-    id: number;
-    nome: string;
-}
+import { usePautas } from "../../hooks/usePautas";
 
 export function TabelaPautas() {
-  const [pautas, setPautas] = useState<Pauta[]>([]);
+  const { pautas } = usePautas();
 
-  async function handleIniciarSessao(id: Number) {
+  async function handleIniciarSessao(id: any) {
     const obj = await api.post(`sessoes/${id}/sessoes-votacoes`)
                         .catch(function (error) {
                           alert(error.response.data.title);
@@ -18,13 +13,9 @@ export function TabelaPautas() {
 
     if (obj) {
         alert('Sessão iniciada com sucesso')
+        window.location.reload()       
     }
   }
-
-  useEffect(() => {
-    api.get('pautas')
-        .then(response => setPautas(response.data))   
-  }, []);   
 
   return (
     <Container>
@@ -43,7 +34,8 @@ export function TabelaPautas() {
                     <td>{pauta.id}</td>
                     <td>{pauta.nome}</td>
                     <td>
-                      <button type="submit" onClick={() => handleIniciarSessao(pauta.id)}>
+                      <button type="submit" 
+                              onClick={() => handleIniciarSessao(pauta.id)}>
                         Iniciar sessão
                       </button>
                     </td>

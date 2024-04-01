@@ -2,8 +2,8 @@ import Modal from 'react-modal';
 import { FormEvent, useState } from 'react';
 import closeImg from '../../assets/close.svg';
 import { Container } from './styles';
-import { api } from "../../services/api";
 import moment from 'moment';
+import { usePautas } from '../../hooks/usePautas';
 
 interface NovaPautaModalProps {
     isOpen: boolean; 
@@ -11,24 +11,27 @@ interface NovaPautaModalProps {
 }
 
 export function NovaPautaModal({ isOpen, onRequestClose }: NovaPautaModalProps) {
+    const { criarPauta } = usePautas();
+
     const [nome, setNome] = useState('');
     const [descricao, setDescricao] = useState('');
     const [dataInicio, setDataInicio] = useState('');
-    
+        
     async function handleCreateNovaPauta(event: FormEvent) {
         event.preventDefault();
 
         const dataInicioFormatada = moment(dataInicio).format("yyyy-MM-DD HH:mm:ss")
 
-        const obj = await api.post('pautas', {
-            'dataInicio': dataInicioFormatada,
-            'nome': nome,
-            'descricao': descricao             
-        });
-
-        if (obj) {
-            alert('Registro cadstrado com sucesso')
-        }
+        await criarPauta({
+            dataInicio: dataInicioFormatada,
+            nome,
+            descricao
+        })
+         
+        setNome('');
+        setDescricao('');
+        setDataInicio('');
+         
         onRequestClose();      
     }     
 
