@@ -2,7 +2,9 @@
 
 O sistema criada para cadastrar uma nova pauta, iniciar uma nova sessão, votar e consultar o resultado da votação.
 
-# Documentação da API
+# Documentação do projeto
+
+## Frontend
 
 Link abaixo para documentação da api no Swagger (Open api)
 [http://localhost:8080/swagger-ui/index.html] 
